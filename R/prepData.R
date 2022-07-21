@@ -208,25 +208,7 @@ prepData <- function(x, panel = NULL, md = NULL,
         panel <- panel[m != 0, , drop = FALSE]
         features <- features[m]
     }
-    
-    # check that filenames or identifiers 
-    # match b/w 'flowSet' & metadata
-    ids0 <- md[[md_cols$file]]
-    ids1 <- fsApply(fs, identifier)
-    ids2 <- keyword(fs, "FILENAME")
-    if (length(unlist(ids2)) == length(fs))
-        ids2 <- basename(ids2)
-    check1 <- all(ids1 %in% ids0)
-    check2 <- all(ids2 %in% ids0)
-    ids_use <- which(c(check1, check2))[1]
-    ids <- list(ids1, ids2)[[ids_use]]
-    if (is.null(ids)) {
-        stop("Couldn't match 'flowSet'/FCS filenames\n", 
-            "with those listed in 'md[[md_cols$file]]'.")
-    } else {
-        # reorder 'flowSet' frames according to metadata table
-        fs <- fs[match(md[[md_cols$file]], ids)]
-    }
+   
     
     # assure correctness of formats
     k <- c(md_cols$id, md_cols$factors)
